@@ -1,31 +1,32 @@
 package org.gabrielbarrilli.webfluxcourse.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
+import jakarta.persistence.*;
+import lombok.*;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Data
-@Builder
+@Setter
+@Getter
 @Document
-@AllArgsConstructor
-@NoArgsConstructor
+@Entity
 public class User {
-
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private String name;
 
     @Indexed(unique = true)
     private String email;
+
     private String password;
 
     public User(String name, String email, String password) {
         this.name = name;
         this.email = email;
         this.password = password;
+    }
+
+    public User() {
     }
 }
