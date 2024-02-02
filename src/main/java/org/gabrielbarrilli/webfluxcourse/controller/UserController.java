@@ -3,7 +3,6 @@ package org.gabrielbarrilli.webfluxcourse.controller;
 
 import org.gabrielbarrilli.webfluxcourse.entity.request.UserRequest;
 import org.gabrielbarrilli.webfluxcourse.entity.response.UserResponse;
-import org.gabrielbarrilli.webfluxcourse.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
@@ -23,12 +22,10 @@ public interface UserController {
     ResponseEntity<Flux<UserResponse>> findAll();
 
     @PostMapping
-    ResponseEntity<Mono<Void>> save(@RequestBody UserRequest request){
-        return usuarioService.save(request);
-    }
+    ResponseEntity<Mono<Void>> save(@RequestBody UserRequest request);
 
-//    @PatchMapping(value = "/{id}")
-//    ResponseEntity<Mono<UserResponse>> update(@PathVariable Long id, RequestBody UserRequest request);
+    @PatchMapping(value = "/{id}")
+    ResponseEntity<Mono<UserResponse>> update(@PathVariable Long id, @RequestBody UserRequest request);
 
     @DeleteMapping(value = "/{id}")
     ResponseEntity<Mono<Void>> delete(@PathVariable Long id);

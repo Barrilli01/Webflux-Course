@@ -8,8 +8,6 @@ import org.gabrielbarrilli.webfluxcourse.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
-import java.util.List;
-
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -17,8 +15,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
 
-    public Mono<User> save(final UserRequest request){
-
+    public Mono<User> save(final UserRequest request) {
         return userRepository.save(userMapper.toEntity(request));
     }
 
