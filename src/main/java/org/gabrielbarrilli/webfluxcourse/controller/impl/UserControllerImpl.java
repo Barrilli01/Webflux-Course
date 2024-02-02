@@ -22,7 +22,7 @@ public class UserControllerImpl implements UserController {
     private final UserService userService;
 
     @Override
-    public ResponseEntity<Mono<UserResponse>> find(@PathVariable Long id) {
+    public ResponseEntity<Mono<UserResponse>> find(@PathVariable String id) {
         return null;
     }
 
@@ -32,18 +32,18 @@ public class UserControllerImpl implements UserController {
     }
 
     @Override
-    public ResponseEntity<Mono<Void>> save(@RequestBody UserRequest request) {
+    public ResponseEntity<Mono<Void>> save(final UserRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(userService.save(request).then());
     }
 
     @Override
-    public ResponseEntity<Mono<UserResponse>> update(@PathVariable Long id, @RequestBody UserRequest userRequest) {
+    public ResponseEntity<Mono<UserResponse>> update(@PathVariable String id, @RequestBody UserRequest userRequest) {
         return null;
     }
 
     @Override
-    public ResponseEntity<Mono<Void>> delete(@PathVariable Long id) {
+    public ResponseEntity<Mono<Void>> delete(@PathVariable String id) {
         return null;
     }
 }

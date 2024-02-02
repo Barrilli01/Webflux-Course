@@ -16,7 +16,7 @@ import reactor.core.publisher.Mono;
 public interface UserController {
 
     @GetMapping(value = "/{id}")
-    ResponseEntity<Mono<UserResponse>> find(@PathVariable Long id);
+    ResponseEntity<Mono<UserResponse>> find(@PathVariable String id);
 
     @GetMapping
     ResponseEntity<Flux<UserResponse>> findAll();
@@ -25,10 +25,10 @@ public interface UserController {
     ResponseEntity<Mono<Void>> save(@RequestBody UserRequest request);
 
     @PatchMapping(value = "/{id}")
-    ResponseEntity<Mono<UserResponse>> update(@PathVariable Long id, @RequestBody UserRequest request);
+    ResponseEntity<Mono<UserResponse>> update(@PathVariable String id, @RequestBody UserRequest request);
 
     @DeleteMapping(value = "/{id}")
-    ResponseEntity<Mono<Void>> delete(@PathVariable Long id);
+    ResponseEntity<Mono<Void>> delete(@PathVariable String id);
 }
 
 
