@@ -4,13 +4,13 @@ import org.gabrielbarrilli.webfluxcourse.entity.User;
 import org.gabrielbarrilli.webfluxcourse.entity.request.UserRequest;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.NullValueCheckStrategy;
-import org.mapstruct.NullValuePropertyMappingStrategy;
+import static org.mapstruct.NullValueCheckStrategy.ALWAYS;
+import static org.mapstruct.NullValuePropertyMappingStrategy.IGNORE;
 
 @Mapper(
         componentModel = "spring",
-        nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
-        nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS
+        nullValuePropertyMappingStrategy = IGNORE,
+        nullValueCheckStrategy = ALWAYS
 )
 public interface UserMapper {
 
