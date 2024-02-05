@@ -1,6 +1,7 @@
 package org.gabrielbarrilli.webfluxcourse.controller;
 
 
+import jakarta.validation.Valid;
 import org.gabrielbarrilli.webfluxcourse.entity.request.UserRequest;
 import org.gabrielbarrilli.webfluxcourse.entity.response.UserResponse;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,7 @@ public interface UserController {
     ResponseEntity<Flux<UserResponse>> findAll();
 
     @PostMapping
-    ResponseEntity<Mono<Void>> save(@RequestBody UserRequest request);
+    ResponseEntity<Mono<Void>> save(@Valid @RequestBody UserRequest request);
 
     @PatchMapping(value = "/{id}")
     ResponseEntity<Mono<UserResponse>> update(@PathVariable String id, @RequestBody UserRequest request);
