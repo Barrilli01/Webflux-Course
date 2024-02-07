@@ -7,6 +7,7 @@ import org.gabrielbarrilli.webfluxcourse.mapper.UserMapper;
 import org.gabrielbarrilli.webfluxcourse.repository.UserRepository;
 import org.gabrielbarrilli.webfluxcourse.service.exception.ObjectNotFoundException;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import static java.lang.String.format;
@@ -31,5 +32,9 @@ public class UserService {
                                 )
                         )
                 );
+    }
+
+    public Flux<User> findAll() {
+        return userRepository.findAll();
     }
 }
