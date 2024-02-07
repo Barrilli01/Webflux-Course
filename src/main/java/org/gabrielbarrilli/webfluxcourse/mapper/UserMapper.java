@@ -2,6 +2,7 @@ package org.gabrielbarrilli.webfluxcourse.mapper;
 
 import org.gabrielbarrilli.webfluxcourse.entity.User;
 import org.gabrielbarrilli.webfluxcourse.entity.request.UserRequest;
+import org.gabrielbarrilli.webfluxcourse.entity.response.UserResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import static org.mapstruct.NullValueCheckStrategy.ALWAYS;
@@ -16,4 +17,6 @@ public interface UserMapper {
 
     @Mapping(target = "id", ignore = true)
     User toEntity(final UserRequest request);
+
+    UserResponse toResponse(final User entity);
 }

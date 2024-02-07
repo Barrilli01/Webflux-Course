@@ -16,11 +16,11 @@ import reactor.core.publisher.Mono;
  */
 public interface UserController {
 
-    @GetMapping(value = "/{id}")
-    ResponseEntity<Mono<UserResponse>> find(@PathVariable String id);
-
     @GetMapping
     ResponseEntity<Flux<UserResponse>> findAll();
+
+    @GetMapping(value = "/{id}")
+    ResponseEntity<Mono<UserResponse>> findById(@PathVariable String id);
 
     @PostMapping
     ResponseEntity<Mono<Void>> save(@Valid @RequestBody UserRequest request);

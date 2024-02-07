@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.gabrielbarrilli.webfluxcourse.controller.UserController;
 import org.gabrielbarrilli.webfluxcourse.entity.request.UserRequest;
 import org.gabrielbarrilli.webfluxcourse.entity.response.UserResponse;
+import org.gabrielbarrilli.webfluxcourse.mapper.UserMapper;
 import org.gabrielbarrilli.webfluxcourse.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,15 +21,18 @@ import reactor.core.publisher.Mono;
 public class UserControllerImpl implements UserController {
 
     private final UserService userService;
-
-    @Override
-    public ResponseEntity<Mono<UserResponse>> find(@PathVariable String id) {
-        return null;
-    }
+    private final UserMapper userMapper;
 
     @Override
     public ResponseEntity<Flux<UserResponse>> findAll() {
         return null;
+    }
+
+    @Override
+    public ResponseEntity<Mono<UserResponse>> findById(final String id) {
+        return ResponseEntity.ok().body(
+                userService.findById(id).map(userMapper::toResponse)
+        );
     }
 
     @Override
