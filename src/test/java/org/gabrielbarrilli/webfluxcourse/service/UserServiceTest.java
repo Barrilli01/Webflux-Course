@@ -98,6 +98,7 @@ class UserServiceTest {
         Mockito.verify(userRepository, times(1)).save(any(User.class));
     }
 
+    @Test
     void testDelete() {
         User entity = User.builder().build();
 
