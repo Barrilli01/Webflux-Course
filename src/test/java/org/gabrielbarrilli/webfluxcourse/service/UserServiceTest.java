@@ -4,6 +4,8 @@ import org.gabrielbarrilli.webfluxcourse.entity.User;
 import org.gabrielbarrilli.webfluxcourse.entity.request.UserRequest;
 import org.gabrielbarrilli.webfluxcourse.mapper.UserMapper;
 import org.gabrielbarrilli.webfluxcourse.repository.UserRepository;
+import org.gabrielbarrilli.webfluxcourse.service.exception.ObjectNotFoundException;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -14,9 +16,10 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
-import java.util.Objects;
-
-import static org.mockito.ArgumentMatchers.*;
+import static java.lang.String.format;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
 
@@ -34,7 +37,7 @@ class UserServiceTest {
 
     @Test
     void testSave() {
-        UserRequest userRequest = new UserRequest("Gabriel" , "gabriel@gmail.com" , "123");
+        UserRequest userRequest = new UserRequest("Gabriel", "gabriel@gmail.com", "123");
         User entity = User.builder().build();
 
         when(userMapper.toEntity(any())).thenReturn(entity);
@@ -81,10 +84,10 @@ class UserServiceTest {
 
     @Test
     void testUpdate() {
-        UserRequest userRequest = new UserRequest("Gabriel" , "gabriel@gmail.com" , "123");
+        UserRequest userRequest = new UserRequest("Gabriel", "gabriel@gmail.com", "123");
         User entity = User.builder().build();
 
-        when(userMapper.toEntity(any(UserRequest.class) , any(User.class))).thenReturn(entity);
+        when(userMapper.toEntity(any(UserRequest.class), any(User.class))).thenReturn(entity);
         when(userRepository.findById(anyString())).thenReturn(Mono.just(entity));
         when(userRepository.save(any(User.class))).thenReturn(Mono.just(entity));
 
@@ -112,6 +115,19 @@ class UserServiceTest {
                 .verify();
 
         Mockito.verify(userRepository, times(1)).findAndRemove(anyString());
+    }
+
+    @Test
+    void testHandleNotFound() {
+        when(userRepository.findById(anyString())).thenReturn(Mono.empty());
+
+        try {
+            userService.findById("123").block();
+        } catch (Exception ex) {
+            assertEquals(ObjectNotFoundException.class, ex.getClass());
+            assertEquals(format("Object not found. Id: %s, Type: %s", "123", User.class.getSimpleName())
+                    , ex.getMessage());
+        }
     }
 }
 
