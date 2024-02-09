@@ -30,6 +30,18 @@ import static org.springframework.web.reactive.function.BodyInserters.fromValue;
 @AutoConfigureWebTestClient
 class UserControllerImplTest {
 
+    public static final String id = "123456";
+    public static final String validName = "Gabriel Barrilli";
+    public static final String validEmail = "gabriel@gmail.com";
+    public static final String validPassword = "123";
+    public static final String invalidName = " Gabriel Barrilli";
+    public static final String invalidEmail = "gabrielgmail.com";
+    public static final String invalidPassword = "12";
+    public static final UserResponse validResponse = new UserResponse(id, validName, validEmail, validPassword);
+    public static final UserResponse invalidResponse = new UserResponse(id, invalidName, invalidEmail, invalidPassword);
+    public static final UserRequest validRequest = new UserRequest(validName, validEmail, validPassword);
+    public static final UserRequest invalidRequest = new UserRequest(invalidName, invalidEmail, invalidPassword);
+
     @Autowired
     private WebTestClient webTestClient;
 
@@ -42,9 +54,6 @@ class UserControllerImplTest {
     @MockBean
     private MongoClient mongoClient;
 
-    final UserRequest validRequest = new UserRequest("Gabriel Barrilli" , "gabriel@gmail.com" , "123");
-    final UserRequest invalidRequest = new UserRequest(" Gabriel Barrilli" , "gabrielgmail.com" , "12");
-
     @Test
     void findAll() {
     }
@@ -52,18 +61,16 @@ class UserControllerImplTest {
     @Test
     @DisplayName("Test find by id with success")
     void findById() {
-        final var id = "123456";
-        final var userResponse = new UserResponse(id ,"Gabriel Barrilli" , "gabriel@gmail.com" , "123");
 
         when(userService.findById(anyString())).thenReturn(Mono.just(User.builder().build()));
-        when(userMapper.toResponse(any(User.class))).thenReturn(userResponse);
+        when(userMapper.toResponse(any(User.class))).thenReturn(validResponse);
 
-        webTestClient.get().uri("/users/" + id)
+        webTestClient.get().uri("/users/" + "123456")
                 .accept(APPLICATION_JSON)
                 .exchange()
                 .expectStatus().isOk()
                 .expectBody()
-                .jsonPath("$.id").isEqualTo(id)
+                .jsonPath("$.id").isEqualTo("123456")
                 .jsonPath("$.name").isEqualTo("Gabriel Barrilli")
                 .jsonPath("$.email").isEqualTo("gabriel@gmail.com")
                 .jsonPath("$.password").isEqualTo("123");
