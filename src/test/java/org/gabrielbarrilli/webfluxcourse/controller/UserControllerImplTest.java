@@ -133,14 +133,14 @@ class UserControllerImplTest {
                 .jsonPath("$.error").isEqualTo("Validation error")
                 .jsonPath("$.message").isEqualTo("Error on validation attributes")
 
-                .jsonPath("$.errors[2].fieldName").isEqualTo("name")
-                .jsonPath("$.errors[2].message").isEqualTo("field cannot have blank spaces at the beginning or at end")
+                .jsonPath("$.errors[0].fieldName").isEqualTo("email")
+                .jsonPath("$.errors[0].message").isEqualTo("invalid email")
 
-                .jsonPath("$.errors[1].fieldName").isEqualTo("email")
-                .jsonPath("$.errors[1].message").isEqualTo("invalid email")
+                .jsonPath("$.errors[1].fieldName").isEqualTo("name")
+                .jsonPath("$.errors[1].message").isEqualTo("field cannot have blank spaces at the beginning or at end")
 
-                .jsonPath("$.errors[0].fieldName").isEqualTo("password")
-                .jsonPath("$.errors[0].message").isEqualTo("must be between 3 and 20 characters");
+                .jsonPath("$.errors[2].fieldName").isEqualTo("password")
+                .jsonPath("$.errors[2].message").isEqualTo("must be between 3 and 20 characters");
 
     }
 
