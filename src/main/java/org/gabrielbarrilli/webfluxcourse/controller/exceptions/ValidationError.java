@@ -6,6 +6,7 @@ import lombok.Getter;
 import java.io.Serial;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @Getter
@@ -20,8 +21,13 @@ public class ValidationError extends StandardError{
         super(timeStamp, path, status, error, message);
     }
 
+//    public void addError(String fieldName, String message) {
+//        this.errors.add(new FieldError(fieldName, message));
+//    }
+
     public void addError(String fieldName, String message) {
         this.errors.add(new FieldError(fieldName, message));
+        this.errors.sort(Comparator.comparing(FieldError::getFieldName)); // Ordena os erros sempre que um novo erro é adicionado
     }
 
     @Getter

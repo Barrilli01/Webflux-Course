@@ -10,6 +10,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.support.WebExchangeBindException;
 import reactor.core.publisher.Mono;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+
 import static java.time.LocalDateTime.now;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
@@ -32,6 +36,25 @@ public class ControllerExceptionHandler {
         ));
     }
 
+//    @ExceptionHandler(WebExchangeBindException.class)
+//    ResponseEntity<Mono<ValidationError>> validationError(
+//            WebExchangeBindException ex, ServerHttpRequest request
+//    ) {
+//        ValidationError error = new ValidationError(
+//                now(), request.getPath().toString(), BAD_REQUEST.value(),
+//                "Validation error", "Error on validation attributes"
+//        );
+//
+//
+
+//        for (FieldError x : ex.getBindingResult().getFieldErrors()) {
+//            error.addError(x.getField(), x.getDefaultMessage());
+//        }
+//
+//        return ResponseEntity.status(BAD_REQUEST).body(Mono.just(error));
+//
+//    }
+
     @ExceptionHandler(WebExchangeBindException.class)
     ResponseEntity<Mono<ValidationError>> validationError(
             WebExchangeBindException ex, ServerHttpRequest request
@@ -41,11 +64,15 @@ public class ControllerExceptionHandler {
                 "Validation error", "Error on validation attributes"
         );
 
-        for (FieldError x : ex.getBindingResult().getFieldErrors()) {
+        List<FieldError> fieldErrors = new ArrayList<>(ex.getBindingResult().getFieldErrors());
+        fieldErrors.sort(Comparator.comparing(FieldError::getField)); // Ordena os erros pelo fieldName
+
+        for (FieldError x : fieldErrors) {
             error.addError(x.getField(), x.getDefaultMessage());
         }
         return ResponseEntity.status(BAD_REQUEST).body(Mono.just(error));
     }
+
 
     private String verifyDupKey(String message) {
         if (message.contains("email dup key")) {
