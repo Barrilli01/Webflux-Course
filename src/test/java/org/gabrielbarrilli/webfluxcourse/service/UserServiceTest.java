@@ -5,7 +5,6 @@ import org.gabrielbarrilli.webfluxcourse.entity.request.UserRequest;
 import org.gabrielbarrilli.webfluxcourse.mapper.UserMapper;
 import org.gabrielbarrilli.webfluxcourse.repository.UserRepository;
 import org.gabrielbarrilli.webfluxcourse.service.exception.ObjectNotFoundException;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
